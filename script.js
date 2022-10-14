@@ -1,3 +1,5 @@
+// With Hash
+
 class ListNode {
     constructor(key, val, next) {
         this.key = key
@@ -45,3 +47,22 @@ sun.put('sun', 'day');
 sun.put('moon', 'sky');
 log(sun.remove('sun'))
 log(sun.get('sun'))
+
+// With Array
+
+class MyHashMap {
+    constructor() {
+        this.data = new Array(1000001)
+    }
+    put(key, val) {
+        this.data[key] = val
+    }
+    get(key) {
+        let val = this.data[key]
+        return val !== undefined ? val : -1
+    }
+    remove(key) {
+        delete this.data[key]
+    }
+};
+
