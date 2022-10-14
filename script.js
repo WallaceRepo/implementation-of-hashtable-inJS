@@ -52,7 +52,7 @@ log(sun.get('sun'))
 
 class MyHashMap {
     constructor() {
-        this.data = new Array(1000001)
+        this.data = []
     }
     put(key, val) {
         this.data[key] = val
@@ -65,4 +65,32 @@ class MyHashMap {
         delete this.data[key]
     }
 };
+let log = console.log
+const sun = new MyHashMap();
+
+sun.put('hello', 'howya');
+sun.put('sun', 'day');
+sun.put('moon', 'sky');
+log(sun)   
+//MyHashMap { data: [ hello: 'howya', sun: 'day', moon: 'sky' ] }
+log(sun.get('sun'))   // day
+
+let obj = {}
+obj.name = []
+console.log(obj)   // { name: [] }
+obj.name.push('hello', 'kkk', {days: 'bright'})
+log(obj) // { name: [ 'hello', 'kkk', { days: 'bright' } ] }
+
+let key = 'sweet day' 
+obj.name[key] = 'bla'
+log(obj) // { name: [ 'hello', 'kkk', { days: 'bright' }, 'sweet day': 'bla' ] }
+obj.name[key] = 'cute apples'
+log(obj) // { name: [ 'hello', 'kkk', { days: 'bright' }, 'sweet day': 'cute apples' ] }
+obj.name.pop()
+obj.name.pop()
+obj.name.pop()
+obj.name.pop() // pops removes only the array member incerted with push(), from its last 
+log(obj) // { name: [ 'sweet day': 'cute apples' ] }
+delete(obj.name['sweet day']) // delete removes the weird one
+log(obj) // { name: [] }
 
