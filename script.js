@@ -1,60 +1,47 @@
-let log = console.log;
-class Entry {
-    constructor(key, value) {
-        this.key = key;
-        this.value = value;
-     }
-     getKey(){
-         return this.key
-     }
-     getValue(){
-         return this.value
-     }
-     setValue(value){
-         this.value = value
-     }
+class ListNode {
+    constructor(key, val, next) {
+        this.key = key
+        this.val = val
+        this.next = next
+    }
 }
-class Hashmap {
-    
-    constructor(){
-        this.table = []
+class MyHashMap {
+    constructor() {
+        this.size = 19997
+        this.mult = 12582917
+        this.data = []
     }
-    hashNumber(key) {
-        let salt = 0;
-        if(key.length == 0) return salt;
-        for( let i = 0; i< key.length; i++) {
-            let ch = key.charCodeAt(i)
-            salt = (salt + ch) % 5;
-         }
-        return salt
+    hash(key) {
+        return key * this.mult % this.size
     }
-    put(key, value) {
-        let hash = this.hashNumber(key);
-      
-       if(this.table[hash] == null) {
-            this.table[hash] = new Entry(key, value)
-        } else {
-            return 'yes'
-        }
+    put(key, val) {
+        this.remove(key)
+        let h = this.hash(key)
+        let node = new ListNode(key, val, this.data[h])
+        this.data[h] = node
     }
     get(key) {
-        let hash = this.hashNumber(key, this.table.size);
-          console.log(hash)
-          console.log(hash)
-        if(this.table[hash]) {
-            return this.table[hash].getValue()
-        }
-        return null
+        let h = this.hash(key), node = this.data[h]
+        for (; node; node = node.next)
+            if (node.key === key) return node.val
+        return -1
     }
-    isExist(key){
-    
-        return this.get(key) != null
+    remove(key) {
+        let h = this.hash(key), node = this.data[h]
+        if (!node) return
+        if (node.key === key) this.data[h] = node.next
+        else for (; node.next; node = node.next)
+            if (node.next.key === key) {
+                node.next = node.next.next
+                return
+            }
     }
-}
-let mymap = new Hashmap();
-  mymap.put('hello', 'me')
-  console.log(mymap)
-  console.log(mymap.get('hello'))
-  console.log(mymap.isExist('hello')) 
-  console.log(mymap.isExist('sun')) // This one returns 'true' because the hashNumber() calculates it to 2 and array[2] has a value. So it collides with previous data.
-  // Now instead of creating simple object for array entry, let me try linked list. 
+};
+let log = console.log
+const sun = new MyHashMap();
+
+sun.put('hello', 'howya');
+sun.put('sun', 'day');
+sun.put('moon', 'sky');
+log(sun.remove('sun'))
+log(sun.get('sun'))
